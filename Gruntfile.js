@@ -1,6 +1,7 @@
 module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.initConfig({
     connect: {
@@ -8,7 +9,7 @@ module.exports = function (grunt) {
         options: {
           port: 9000,
           hostname: 'localhost',
-          base: 'client'
+          base: ['client', '.tmp']
         }
       }
     },
@@ -27,12 +28,30 @@ module.exports = function (grunt) {
           livereload: true
         },
       },
+      sass: {
+        files: ['client/**/*.scss'],
+        tasks: ['sass'],
+        options: {
+          livereload: true
+        },
+      }
     },
+    sass: {
+      serve: {
+        files: [{
+          expand: true,
+          cwd: 'client/styles',
+          src: ['**/*.scss'],
+          dest: '.tmp',
+          ext: '.css'
+        }]
+      }
+    }
   });
-
 
   grunt.registerTask('serve', [
     'connect:server',
+    'sass',
     'watch'
   ])
 };
