@@ -17,7 +17,13 @@ module.exports = function (grunt) {
         files: ['client/**/*.html'],
         tasks: [],
         options: {
-          spawn: false,
+          livereload: true
+        },
+      },
+      styles: {
+        files: ['client/**/*.css'],
+        tasks: [],
+        options: {
           livereload: true
         },
       },
