@@ -2,6 +2,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-injector');
 
   grunt.initConfig({
     connect: {
@@ -16,14 +17,21 @@ module.exports = function (grunt) {
     watch: {
       html: {
         files: ['client/**/*.html'],
-        tasks: [],
+        tasks: ['injector'],
         options: {
           livereload: true
         },
       },
       styles: {
         files: ['client/**/*.css'],
-        tasks: [],
+        tasks: ['injector'],
+        options: {
+          livereload: true
+        },
+      },
+      script: {
+        files: ['client/**/*.js'],
+        tasks: ['injector'],
         options: {
           livereload: true
         },
@@ -46,12 +54,20 @@ module.exports = function (grunt) {
           ext: '.css'
         }]
       }
+    },
+    injector: {
+      deps: {
+        files: {
+          'client/index.html': ['client/**/*.js', 'client/**/*.css']
+        }
+      }
     }
   });
 
   grunt.registerTask('serve', [
     'connect:server',
     'sass',
+    'injector',
     'watch'
   ])
 };
